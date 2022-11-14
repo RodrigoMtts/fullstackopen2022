@@ -1,0 +1,4 @@
+title NEW NOTE SPA
+
+Browser->Server: HTML POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+Server->Browser: JSON RESPONSE
