@@ -2,7 +2,14 @@ import { useState } from 'react'
 
 const StatisticLine = ({text,value}) => {
   const porcentSimbol = text==="positive" ? "%" : ""
-  return <div>{text} {value}{porcentSimbol}</div>
+  return (
+    <>
+      <tr>
+        <td>{text}</td> 
+        <td>{value}{porcentSimbol}</td>
+      </tr>
+    </>
+    )
 }
 
 const Statistics = ({good,neutral,bad}) => {
@@ -14,12 +21,14 @@ const Statistics = ({good,neutral,bad}) => {
   return (
     <>
       <h2>Statistics</h2>
-      <StatisticLine text="good" value={good}/>
-      <StatisticLine text="neutral" value={neutral}/>
-      <StatisticLine text="bad" value={bad}/>
-      <StatisticLine text="all" value={all}/>
-      <StatisticLine text="average" value={averageScore}/>
-      <StatisticLine text="positive" value={positivePorcent}/>
+      <table>
+        <StatisticLine text="good" value={good}/>
+        <StatisticLine text="neutral" value={neutral}/>
+        <StatisticLine text="bad" value={bad}/>
+        <StatisticLine text="all" value={all}/>
+        <StatisticLine text="average" value={averageScore}/>
+        <StatisticLine text="positive" value={positivePorcent}/>
+      </table>
     </>
   )
   }else{
