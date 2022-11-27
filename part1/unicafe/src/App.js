@@ -1,5 +1,10 @@
 import { useState } from 'react'
 
+const StatisticLine = ({text,value}) => {
+  const porcentSimbol = text==="positive" ? "%" : ""
+  return <div>{text} {value}{porcentSimbol}</div>
+}
+
 const Statistics = ({good,neutral,bad}) => {
   const all = good + neutral + bad
   const averageScore = (good - bad)/all
@@ -8,13 +13,13 @@ const Statistics = ({good,neutral,bad}) => {
   if(all > 0){
   return (
     <>
-      <h2>statistics</h2>
-      <div>good {good}</div>
-      <div>neutral {neutral}</div>
-      <div>bad {bad}</div>
-      <div>all {all}</div>
-      <div>average {averageScore}%</div>
-      <div>positive {positivePorcent}%</div>
+      <h2>Statistics</h2>
+      <StatisticLine text="good" value={good}/>
+      <StatisticLine text="neutral" value={neutral}/>
+      <StatisticLine text="bad" value={bad}/>
+      <StatisticLine text="all" value={all}/>
+      <StatisticLine text="average" value={averageScore}/>
+      <StatisticLine text="positive" value={positivePorcent}/>
     </>
   )
   }else{
@@ -46,14 +51,14 @@ const App = () => {
   }
 
   return (
-    <div>
+    <>
       <h1>Give feedback</h1>
       <button onClick={goodIncrement}>Good</button>
       <button onClick={neutralIncrement}>Neutral</button>
       <button onClick={badIncrement}>Bad</button>
       
       <Statistics good={good} neutral={neutral} bad={bad}></Statistics>      
-    </div>
+    </>
   )
 }
 
