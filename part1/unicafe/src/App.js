@@ -18,6 +18,10 @@ const App = () => {
     setBad(bad + 1)
   }
 
+  const all = good + neutral + bad
+  const averageScore = (good - bad)/all
+  const positivePorcent = 100 / all * good
+
   return (
     <div>
       <h1>Give feedback</h1>
@@ -28,6 +32,9 @@ const App = () => {
       <div>good {good}</div>
       <div>neutral {neutral}</div>
       <div>bad {bad}</div>
+      <div>all {all}</div>
+      <div>average {averageScore}%</div>
+      <div>positive {positivePorcent}%</div>
     </div>
   )
 }
