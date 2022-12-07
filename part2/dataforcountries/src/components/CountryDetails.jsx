@@ -1,13 +1,13 @@
+import WeatherDetails from "./WeatherDetails"
+
 const CountryDetails = ({country}) => {
     const languages = []
+    const env = process.env.REACT_APP_API_KEY
 
     for(let x in country.languages){
-        console.log("Language: ",x)
-        console.log("Language: ",x)
-
         languages.push(<li key={x}>{country.languages[x]}</li>)
     }
-    console.log("Country details", country)
+
     return(
         <>
             <h1>{country.name.common}</h1>
@@ -18,6 +18,7 @@ const CountryDetails = ({country}) => {
                 {languages}
             </ul>
             <img src={country.flags.png} alt={"Flag from " + country.name.common}/>
+            <WeatherDetails country={country}/>
         </>
     )
 }

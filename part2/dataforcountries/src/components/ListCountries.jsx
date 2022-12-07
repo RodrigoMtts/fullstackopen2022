@@ -12,13 +12,11 @@ const ListCountries = ({countriesFiltered}) => {
 
     return countriesFiltered.map((country, i) => {
         return (
-            <>
-                <div key={country.name.common}>
+                <div key={country.population}>
                     {country.name.common}
                     <button onClick={ () => onClickToggleHandler(i)}>Show</button>
-                    { toggles[i] ? <CountryDetails country={country} /> : ''}
+                    {toggles[i] ? <CountryDetails country={country} /> : ''}
                 </div>
-            </>
         )
     })
 }
