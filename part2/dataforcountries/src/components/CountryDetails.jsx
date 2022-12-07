@@ -17,7 +17,7 @@ const CountryDetails = ({country}) => {
             <ul>
                 {languages}
             </ul>
-            <img src={country.flags.png}/>
+            <img src={country.flags.png} alt={"Flag from " + country.name.common}/>
         </>
     )
 }
