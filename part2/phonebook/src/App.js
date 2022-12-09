@@ -29,7 +29,9 @@ const App = () => {
       .then( person => {
         setPersons([...persons, person])
       })
-
+      .catch( e => {
+        console.log("Person not created: ",e)
+      })
     setNewName('')
   }
 
@@ -43,6 +45,19 @@ const App = () => {
 
   const filterEventHandler = (event) => {
     setFilter(event.target.value)
+  }
+
+  const deletePerson = (person) => {
+    if(window.confirm(`Delete ${person.name} ?`))
+    personsService.remove(person.id)
+      .then( personDeleted => {
+        setPersons(persons.filter( x => x.id !== person.id))
+
+      })
+      .catch( e => {
+        console.log(`${person.name} was already deleted from server`)
+        setPersons(persons.filter( x => x.id !== person.id))
+      })
   }
 
   return (
@@ -59,7 +74,7 @@ const App = () => {
         newName={newName}
         newNumber={newNumber}
       />
-      <Persons persons={persons} filter={filter}/>
+      <Persons persons={persons} filter={filter} deletePerson={deletePerson}/>
     </div>
   )
 }

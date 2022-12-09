@@ -1,8 +1,9 @@
 import Person from './Person'
 
-const Persons = ({persons,filter}) => {
+const Persons = ({persons,filter,deletePerson}) => {
+    console.log(deletePerson)
     const personView = persons.filter( person => person.name.toLocaleLowerCase().includes(filter.toLocaleLowerCase())).map( (person) => {
-        return <Person key={person.id} person={person}/>
+        return <Person key={person.id} person={person} deletePerson={deletePerson}/>
     })
     return (
         <>
