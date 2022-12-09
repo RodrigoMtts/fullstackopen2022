@@ -14,7 +14,7 @@ const ListCountries = ({countriesFiltered}) => {
         return (
                 <div key={country.population}>
                     {country.name.common}
-                    <button onClick={ () => onClickToggleHandler(i)}>Show</button>
+                    <button onClick={ () => onClickToggleHandler(i)}>{!toggles[i] ? "Show" : "Hide"}</button>
                     {toggles[i] ? <CountryDetails country={country} /> : ''}
                 </div>
         )
