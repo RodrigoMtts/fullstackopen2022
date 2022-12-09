@@ -5,7 +5,7 @@ import Filter from './components/Filter'
 import personsService from './services/persons'
 
 const App = () => {
-  const [persons, setPersons] = useState([]) 
+  const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
@@ -17,14 +17,7 @@ const App = () => {
     })
   },[])
 
-  const addPerson = (event) => {
-    event.preventDefault()
-
-    if(persons.find( person => person.name === newName)){
-      alert(`${newName} is already added to phonebook`)
-      return null
-    }
-    
+  const addPerson = (person) => {
     personsService.create({name: newName, number: newNumber})
       .then( person => {
         setPersons([...persons, person])
@@ -33,6 +26,40 @@ const App = () => {
         console.log("Person not created: ",e)
       })
     setNewName('')
+    setNewNumber('')
+  }
+
+  const updatePerson = (person) => {
+    personsService.update(person)
+      .then( personUpdated => {
+        setPersons(persons.map(x => x.id === person.id ? person : x))
+      })
+      .catch( e => {
+        console.log(`${person.name} do not exist in the server`)
+        setPersons(persons.filter( x => x.id !== person.id))
+      })
+    setNewName('')
+    setNewNumber('')
+  }
+
+  const onSubmitPersonHandler = (event) => {
+    event.preventDefault()
+    if(newName === '' || newNumber === ''){
+      alert("Fill all forms")
+      return null
+    }
+
+    const personAlreadyExist = persons.find( person => person.name === newName ) 
+    if( personAlreadyExist !== undefined && personAlreadyExist.number === newNumber){
+      alert(`${newName} is already added to phonebook`)
+      return null
+    }else if(personAlreadyExist){
+      if(window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`))
+        updatePerson({name: newName, number: newNumber, id: personAlreadyExist.id})
+      return null
+    }
+    
+    addPerson({name: newName, number: newNumber})
   }
 
   const nameEventHandler = (event) => {
@@ -68,7 +95,7 @@ const App = () => {
         value={filter}
       />
       <PersonForm
-        addPerson={addPerson}
+        onSubmitPersonHandler={onSubmitPersonHandler}
         nameEventHandler={nameEventHandler}
         phoneEventHandler={phoneEventHandler}
         newName={newName}

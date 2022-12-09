@@ -8,10 +8,6 @@ const getAll = () => {
         })
 }
 
-const get = (id) => {
-
-}
-
 const remove = (id) => {
     return axios.delete(`http://localhost:3001/persons/${id}`)
         .then( response => {
@@ -19,15 +15,19 @@ const remove = (id) => {
         })
 }
 
-const create = (note) => {
-    return axios.post("http://localhost:3001/persons",note)
+const create = (person) => {
+    return axios.post("http://localhost:3001/persons",person)
         .then( response => {
             return response.data
         })
 }
 
-const update = (note) => {
-
+const update = (person) => {
+    console.log("Person in update",person)
+    return axios.put(`http://localhost:3001/persons/${person.id}`,person)
+        .then( response => {
+            return response.data
+        })
 }
 
-export default {getAll, create, remove}
+export default {getAll, create, remove, update}
