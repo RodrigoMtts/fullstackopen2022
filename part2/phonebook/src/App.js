@@ -5,8 +5,6 @@ import Filter from './components/Filter'
 import personsService from './services/persons'
 import Notification from './components/Notification'
 
-//var timer
-
 const App = () => {
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
@@ -19,7 +17,6 @@ const App = () => {
 
   useEffect( () => {
     personsService.getAll().then( initialPersons => {
-      console.log("intial persons", initialPersons)
       setPersons(initialPersons)
     })
   },[])
@@ -29,17 +26,13 @@ const App = () => {
       setMessageNotification({msg, type, visible: messageNotification.visible})
       clearTimeout(timer)
       setTimer(setTimeout( () => {
-        console.log("Set timeout ", messageNotification.visible)
         setMessageNotification({msg, type, visible: !messageNotification.visible})
-        console.log("Set timeout ", messageNotification.visible)
       }, 5000))
     }
     else{
       setMessageNotification({msg, type, visible: !messageNotification.visible})
       setTimer(setTimeout( () => {
-        console.log("Set timeout ", messageNotification.visible)
         setMessageNotification({msg, type, visible: messageNotification.visible})
-        console.log("Set timeout ", messageNotification.visible)
       }, 5000))
     }
   }
@@ -52,7 +45,6 @@ const App = () => {
       })
       .catch( e => {
         msgVisibleHandler(`Some erro happened`, messageTypes.error)
-        console.log("Person not created: ",e)
       })
     setNewName('')
     setNewNumber('')
@@ -65,7 +57,6 @@ const App = () => {
         msgVisibleHandler(`${newName} updated`, messageTypes.success)
       })
       .catch( e => {
-        console.log(`${person.name} do not exist in the server`)
         msgVisibleHandler(`${person.name} do not exist in the server`,messageTypes.error)
         setPersons(persons.filter( x => x.id !== person.id))
       })
@@ -114,7 +105,6 @@ const App = () => {
         msgVisibleHandler(`Information of ${person.name} was deleted from server`,messageTypes.success)
       })
       .catch( e => {
-        console.log(`${person.name} was already deleted from server`)
         msgVisibleHandler(`Information of ${person.name} was already deleted from server`,messageTypes.error)
         setPersons(persons.filter( x => x.id !== person.id))
       })

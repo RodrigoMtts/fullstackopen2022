@@ -3,7 +3,6 @@ import axios from 'axios'
 const getAll = () => {
     return axios.get("http://localhost:3001/persons")
         .then( response => {
-            console.log("response /persons", response.data)
             return response.data
         })
 }
@@ -23,7 +22,6 @@ const create = (person) => {
 }
 
 const update = (person) => {
-    console.log("Person in update",person)
     return axios.put(`http://localhost:3001/persons/${person.id}`,person)
         .then( response => {
             return response.data

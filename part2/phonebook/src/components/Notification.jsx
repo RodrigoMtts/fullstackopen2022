@@ -9,10 +9,8 @@ const Notification = ({messageNotification}) => {
             marginBottom: 10,
     }
 
-    console.log("messageNotification visible: ", messageNotification)
     if(messageNotification.visible){
         return (<div style={style}> 
-        {console.log("Message visible render", messageNotification)}
             {messageNotification.msg}
         </div>)
     }
