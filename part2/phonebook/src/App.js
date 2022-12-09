@@ -3,12 +3,19 @@ import Persons from './components/Persons'
 import PersonForm from './components/PersonForm'
 import Filter from './components/Filter'
 import personsService from './services/persons'
+import Notification from './components/Notification'
+
+//var timer
 
 const App = () => {
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
+  const [messageNotification, setMessageNotification] = useState({msg: '', type: '', visible: false})
+  const [timer, setTimer] = useState(0)
+  
+  const messageTypes = {error: 'erro', success: 'success'}
 
   useEffect( () => {
     personsService.getAll().then( initialPersons => {
@@ -17,12 +24,34 @@ const App = () => {
     })
   },[])
 
+  const msgVisibleHandler = (msg, type) => {
+    if(messageNotification.visible){
+      setMessageNotification({msg, type, visible: messageNotification.visible})
+      clearTimeout(timer)
+      setTimer(setTimeout( () => {
+        console.log("Set timeout ", messageNotification.visible)
+        setMessageNotification({msg, type, visible: !messageNotification.visible})
+        console.log("Set timeout ", messageNotification.visible)
+      }, 5000))
+    }
+    else{
+      setMessageNotification({msg, type, visible: !messageNotification.visible})
+      setTimer(setTimeout( () => {
+        console.log("Set timeout ", messageNotification.visible)
+        setMessageNotification({msg, type, visible: messageNotification.visible})
+        console.log("Set timeout ", messageNotification.visible)
+      }, 5000))
+    }
+  }
+
   const addPerson = (person) => {
     personsService.create({name: newName, number: newNumber})
       .then( person => {
         setPersons([...persons, person])
+        msgVisibleHandler(`Added ${newName}`, messageTypes.success)
       })
       .catch( e => {
+        msgVisibleHandler(`Some erro happened`, messageTypes.error)
         console.log("Person not created: ",e)
       })
     setNewName('')
@@ -33,9 +62,11 @@ const App = () => {
     personsService.update(person)
       .then( personUpdated => {
         setPersons(persons.map(x => x.id === person.id ? person : x))
+        msgVisibleHandler(`${newName} updated`, messageTypes.success)
       })
       .catch( e => {
         console.log(`${person.name} do not exist in the server`)
+        msgVisibleHandler(`${person.name} do not exist in the server`,messageTypes.error)
         setPersons(persons.filter( x => x.id !== person.id))
       })
     setNewName('')
@@ -51,7 +82,8 @@ const App = () => {
 
     const personAlreadyExist = persons.find( person => person.name === newName ) 
     if( personAlreadyExist !== undefined && personAlreadyExist.number === newNumber){
-      alert(`${newName} is already added to phonebook`)
+      //alert(`${newName} is already added to phonebook`)
+      msgVisibleHandler(`${newName} is already added to phonebook`,messageTypes.error)
       return null
     }else if(personAlreadyExist){
       if(window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`))
@@ -79,10 +111,11 @@ const App = () => {
     personsService.remove(person.id)
       .then( personDeleted => {
         setPersons(persons.filter( x => x.id !== person.id))
-
+        msgVisibleHandler(`Information of ${person.name} was deleted from server`,messageTypes.success)
       })
       .catch( e => {
         console.log(`${person.name} was already deleted from server`)
+        msgVisibleHandler(`Information of ${person.name} was already deleted from server`,messageTypes.error)
         setPersons(persons.filter( x => x.id !== person.id))
       })
   }
@@ -90,6 +123,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification messageNotification={messageNotification} />
       <Filter 
         filterEventHandler={filterEventHandler}
         value={filter}
