@@ -37,7 +37,7 @@ const App = () => {
     }
   }
 
-  const addPerson = (person) => {
+  const addPerson = () => {
     personsService.create({name: newName, number: newNumber})
       .then( person => {
         setPersons([...persons, person])
@@ -73,7 +73,6 @@ const App = () => {
 
     const personAlreadyExist = persons.find( person => person.name === newName ) 
     if( personAlreadyExist !== undefined && personAlreadyExist.number === newNumber){
-      //alert(`${newName} is already added to phonebook`)
       msgVisibleHandler(`${newName} is already added to phonebook`,messageTypes.error)
       return null
     }else if(personAlreadyExist){
