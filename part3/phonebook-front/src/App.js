@@ -44,7 +44,7 @@ const App = () => {
         msgVisibleHandler(`Added ${newName}`, messageTypes.success)
       })
       .catch( e => {
-        msgVisibleHandler(`Some erro happened`, messageTypes.error)
+        msgVisibleHandler(e.response.data.error, messageTypes.error)
       })
     setNewName('')
     setNewNumber('')
@@ -57,8 +57,10 @@ const App = () => {
         msgVisibleHandler(`${newName} updated`, messageTypes.success)
       })
       .catch( e => {
-        msgVisibleHandler(`${person.name} do not exist in the server`,messageTypes.error)
-        setPersons(persons.filter( x => x.id !== person.id))
+        console.log(e.response)
+        e.response.status === 404 
+          ? msgVisibleHandler(`${person.name} do not exist in the server`,messageTypes.error)
+          : msgVisibleHandler(e.response.data.error,messageTypes.error)
       })
     setNewName('')
     setNewNumber('')

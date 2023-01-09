@@ -1,6 +1,7 @@
 import axios from 'axios'
 
-const baseUrl = 'http://localhost:3001/api/persons'
+// const baseUrl = 'http://localhost/api/persons'
+const baseUrl = 'https://fragrant-shadow-8123.fly.dev/api/persons'
 
 const getAll = () => {
     return axios.get(baseUrl)
@@ -19,6 +20,7 @@ const remove = (id) => {
 const create = (person) => {
     return axios.post(baseUrl,person)
         .then( response => {
+            console.log(response)
             return response.data
         })
 }
