@@ -1,0 +1,30 @@
+GET http://localhost:3001/api/persons
+
+###
+
+GET http://localhost:3001/info
+
+###
+
+POST http://localhost:3001/api/persons HTTP/1.1
+content-type: application/json
+
+{
+    "name": "rodrigo",
+    "number": "12-123457"
+}
+
+###
+
+DELETE http://localhost:3001/api/persons/63b55b65ccb0cfda12dd
+
+###
+
+PUT http://localhost:3001/api/persons/63b55f6a8eb653d36f8f6a0d
+content-type: application/json
+
+{
+    "id": "63bacdff5ababdc259d1524a",
+    "name": "caiaau",
+    "number": "123-45678"
+}
